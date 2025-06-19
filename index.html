@@ -21,7 +21,7 @@
             letter-spacing: 5px;
         }
 
-        .years, .days {
+        .years, .days, .hours, .minutes, .seconds {
             display: inline-block;
             padding: 20px;
             width: 100px;
@@ -38,6 +38,21 @@
             color: #183059;
         }
 
+        .hours {
+            background: #ffcccb;
+            color: #183059;
+        }
+
+        .minutes {
+            background: #b0e0e6;
+            color: #183059;
+        }
+
+        .seconds {
+            background: #d3ffce;
+            color: #183059;
+        }
+
         .numbers {
             font-family: 'Montserrat', sans-serif;
             color: #183059;
@@ -48,7 +63,6 @@
         h3 {
             text-align: center;
             color: #183059;
-            font-weight: bold;
         }
 
         .small {
@@ -58,35 +72,45 @@
     </style>
 </head>
 <body>
+    <div id="timer">
+        <h3>Days until my death</h3>
+        <div class="years">
+            <div id="years" class="numbers"></div>years
+        </div>
+        <div class="days">
+            <div id="days" class="numbers"></div>days
+        </div>
+        <div class="hours">
+            <div id="hours" class="numbers"></div>hours
+        </div>
+        <div class="minutes">
+            <div id="minutes" class="numbers"></div>minutes
+        </div>
+        <div class="seconds">
+            <div id="seconds" class="numbers"></div>seconds
+        </div>
+    </div>
 
-<div id="timer">
-    <h3>Countdown to July 29, 2025</h3>
-    <div class="years">
-        <div id="years" class="numbers"> </div>years</div>
-    <div class="days">
-        <div id="days" class="numbers"> </div>days</div>
-</div>
+    <script>
+        const myDate = new Date('Jul 29, 2025 00:00:00');
 
+        let timer = setInterval(function () {
+            const now = new Date().getTime();
+            const diff = myDate - now;
+
+            let years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+            let days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("years").innerHTML = years;
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours;
+            document.getElementById("minutes").innerHTML = minutes;
+            document.getElementById("seconds").innerHTML = seconds;
+
+        }, 1000);
+    </script>
 </body>
-<script>
-const targetDate = new Date('July 29, 2025 00:00:00').getTime();
-
-let timer = setInterval(function () {
-    const now = new Date().getTime();
-    const diff = targetDate - now;
-
-    let years = diff / (1000 * 60 * 60 * 24 * 365.25);
-    years = Math.floor(years);
-    let days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24));
-
-    document.getElementById("years").innerHTML = years;
-    document.getElementById("days").innerHTML = days;
-
-    if (diff < 0) {
-        clearInterval(timer);
-        document.getElementById("years").innerHTML = 0;
-        document.getElementById("days").innerHTML = 0;
-    }
-}, 1000);
-</script>
 </html>
